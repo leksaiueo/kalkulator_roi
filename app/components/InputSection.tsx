@@ -4,7 +4,7 @@ import SliderForm from "../assets/SliderForm";
 
 export function InputSection() {
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-6">
+    <div className="bg-white rounded-2xl shadow-sm p-6 h-full">
       <div className="h-full flex flex-col gap-8">
         <div>
           <div className="flex items-center gap-2 mb-2">
