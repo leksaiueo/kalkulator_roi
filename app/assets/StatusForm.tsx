@@ -4,6 +4,7 @@ export default function StatusForm({
   value,
   valueClassName = "text-gray-900",
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   icon: any;
   label: string;
   value: string;

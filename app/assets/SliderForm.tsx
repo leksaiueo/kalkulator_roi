@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, useMemo } from "react";
+import { InputHTMLAttributes } from "react";
 import { cn, formatCurrency } from "../lib/utils";
 
 interface SliderProps extends InputHTMLAttributes<HTMLInputElement> {

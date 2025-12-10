@@ -6,11 +6,7 @@ import { AnimatePresence } from "framer-motion";
 import HistoryCard from "../assets/HistoryCard";
 
 export default function HistorySection() {
-  const { history, clearHistory } = calcROI();
-
-  if (history.length === 0) {
-    return null;
-  }
+  const { history, removeFromHistory } = calcROI();
 
   return (
     <div className="mt-8">
@@ -22,19 +18,16 @@ export default function HistorySection() {
               Riwayat Perhitungan
             </h2>
           </div>
-          <button
-            onClick={clearHistory}
-            className="bg-white rounded-2xl text-sm text-red-500 hover:text-red-700 flex items-center gap-1 transition-colors p-3"
-          >
-            <Trash2 className="w-4 h-4" />
-            Hapus Riwayat Seluruhnya
-          </button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <AnimatePresence>
             {history.map((item) => (
-              <HistoryCard key={item.id} item={item} />
+              <HistoryCard
+                key={item.id}
+                item={item}
+                onDelete={() => removeFromHistory(item.id)}
+              />
             ))}
           </AnimatePresence>
         </div>

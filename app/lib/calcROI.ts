@@ -25,14 +25,15 @@ interface ROIState {
   aov: number;
   history: HistoryItem[];
 
+  // Actions
   setProductPrice: (value: number) => void;
   setAdSpend: (value: number) => void;
   setCpr: (value: number) => void;
   setAov: (value: number) => void;
   addToHistory: () => void;
-  clearHistory: () => void;
+  removeFromHistory: (id: string) => void;
 
-  //ambil nilai
+  // Computed (helper functions to get values)
   getResults: () => number;
   getRevenue: () => number;
   getProfit: () => number;
@@ -76,7 +77,11 @@ export const calcROI = create<ROIState>()(
         set((state) => ({ history: [newItem, ...state.history] }));
       },
 
-      clearHistory: () => set({ history: [] }),
+      removeFromHistory: (id) => {
+        set((state) => ({
+          history: state.history.filter((item) => item.id !== id),
+        }));
+      },
 
       getResults: () => {
         const { adSpend, cpr } = get();

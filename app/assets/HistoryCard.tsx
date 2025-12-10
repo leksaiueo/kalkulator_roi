@@ -1,12 +1,16 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { calcROI, HistoryItem } from "../lib/calcROI";
 import { formatCurrency, formatNumber } from "../lib/utils";
+import { Trash2 } from "lucide-react";
 
-export default function HistoryCard({ item }: { item: HistoryItem }) {
+export default function HistoryCard({
+  item,
+  onDelete,
+}: {
+  item: HistoryItem;
+  onDelete: () => void;
+}) {
   const isProfitable = item.results.profit > 0;
-
-  const {history, clearHistory} = calcROI();
 
   return (
     <motion.div
@@ -27,8 +31,15 @@ export default function HistoryCard({ item }: { item: HistoryItem }) {
           >
             ROI {formatNumber(item.results.roi)}%
           </span>
-          <button>
-
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete();
+            }}
+            className="text-red-500 hover:text-red-600 transition-colors"
+            title="Hapus item"
+          >
+            <Trash2 className="w-4 h-4" />
           </button>
         </div>
 
