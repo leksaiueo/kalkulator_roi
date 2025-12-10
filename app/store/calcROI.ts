@@ -117,8 +117,8 @@ export const calcROI = create<ROIState>()(
       },
 
       getCprTarget: () => {
-        const { productPrice } = get();
-        return productPrice * 0.3;
+        const { aov, productPrice } = get();
+        return aov - productPrice;
       },
     }),
     {
