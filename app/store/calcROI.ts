@@ -32,7 +32,6 @@ interface ROIState {
   addToHistory: () => void;
   removeFromHistory: (id: string) => void;
 
-
   getResults: () => number;
   getRevenue: () => number;
   getProfit: () => number;
@@ -96,8 +95,11 @@ export const calcROI = create<ROIState>()(
 
       getProfit: () => {
         const revenue = get().getRevenue();
-        const { adSpend } = get();
-        return revenue - adSpend;
+        const { adSpend, productPrice } = get();
+        const results = get().getResults();
+        const totalProductCost = productPrice * results;
+
+        return revenue - adSpend - totalProductCost;
       },
 
       getROI: () => {
