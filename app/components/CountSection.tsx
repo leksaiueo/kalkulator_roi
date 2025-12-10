@@ -1,6 +1,6 @@
 "use client";
 
-import { calcROI } from "../lib/calcROI";
+import { calcROI } from "../store/calcROI";
 import { formatCurrency, formatRupiah } from "../lib/utils";
 import { InsightForm } from "../assets/InsightForm";
 

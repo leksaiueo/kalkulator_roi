@@ -3,7 +3,7 @@
 import { Save, Target } from "lucide-react";
 import InputForm from "../assets/InputForm";
 import SliderForm from "../assets/SliderForm";
-import { calcROI } from "../lib/calcROI";
+import { calcROI } from "../store/calcROI";
 
 export function InputSection() {
   const {

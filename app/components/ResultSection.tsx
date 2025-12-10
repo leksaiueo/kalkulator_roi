@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import StatusForm from "../assets/StatusForm";
-import { calcROI } from "../lib/calcROI";
+import { calcROI } from "../store/calcROI";
 import { formatCurrency, formatNumber } from "../lib/utils";
 
 function hasilROI(value: number) {

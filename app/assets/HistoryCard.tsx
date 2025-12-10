@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { HistoryItem } from "../lib/calcROI";
+import { HistoryItem } from "../store/calcROI";
 import { formatCurrency, formatNumber } from "../lib/utils";
 import { Trash2 } from "lucide-react";
 
