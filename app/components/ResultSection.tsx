@@ -3,15 +3,18 @@ import {
   BarChart3,
   Calculator,
   DollarSign,
-  Target,
   TargetIcon,
   TrendingUp,
-  Users,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import StatusForm from "../assets/StatusForm";
 import { calcROI } from "../lib/calcROI";
 import { formatCurrency, formatNumber } from "../lib/utils";
+
+function hasilROI(value: number) {
+  const formatROI = formatNumber(Math.abs(value));
+  return value >= 0 ? `+${formatROI}%` : `-${formatROI}%`;
+}
 
 function ResultSection() {
   const {
@@ -38,7 +41,7 @@ function ResultSection() {
         <div>
           <div className="flex items-center gap-2 mb-2">
             <BarChart3 className="w-6 h-6 text-blue-600" />
-            <h2 className="text-xl font-bold text-gray-900">Hasil Prediksi</h2>
+            <h2 className="text-2xl font-bold text-gray-900">Hasil Prediksi</h2>
           </div>
           <p className="text-gray-500 text-sm">
             Berdasarkan parameter kampanye Anda
@@ -57,9 +60,11 @@ function ResultSection() {
               Laba atas Investasi (ROI)
             </h3>
             <div className="flex items-baseline gap-2">
-              <span className="text-5xl font-bold">+40%</span>
+              <span className="text-6xl font-bold">{hasilROI(roi)}</span>
             </div>
-            <p className="text-blue-100 mt-2 text-sm">Perlu Optimasi</p>
+            <p className="text-blue-100 mt-2 text-md">
+              {roi < 0 ? "Perlu Optimasi" : "Kampanye Menguntungkan"}
+            </p>
           </div>
 
           <svg
@@ -82,19 +87,15 @@ function ResultSection() {
             value={formatCurrency(revenue)}
           />
           <StatusForm
-            icon={
-              <TrendingUp
-                className={isProfitable ? "text-green-600" : "text-red-600"}
-              />
-            }
+            icon={<TrendingUp className="text-purple-500" />}
             label="Keuntungan"
             value={formatCurrency(profit)}
-            valueClassName={isProfitable ? "text-gray-900" : "text-red-600"}
+            valueClassName={isProfitable ? "text-cyan-400" : "text-red-600"}
           />
           <StatusForm
             icon={<TargetIcon className="w-4 h-4 text-purple-600" />}
             label="Jumlah Results"
-            value={formatNumber(results)}
+            value={formatNumber(Math.floor(results))}
           />
           <StatusForm
             icon={<Calculator className="w-4 h-4 text-cyan-600" />}
@@ -117,7 +118,7 @@ function ResultSection() {
               <p className="text-xs text-gray-500 mb-1">Margin per Result</p>
               <p
                 className={`text-xl font-bold ${
-                  marginPerResult >= 0 ? "text-gray-900" : "text-red-600"
+                  marginPerResult >= 0 ? "text-cyan-400" : "text-red-600"
                 }`}
               >
                 {formatCurrency(marginPerResult)}

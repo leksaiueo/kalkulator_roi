@@ -1,72 +1,123 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
+export interface HistoryItem {
+  id: string;
+  date: string;
+  inputs: {
+    productPrice: number;
+    adSpend: number;
+    cpr: number;
+    aov: number;
+  };
+  results: {
+    roi: number;
+    revenue: number;
+    profit: number;
+    results: number;
+  };
+}
 
 interface ROIState {
   productPrice: number;
   adSpend: number;
   cpr: number;
-  aov: number; // Nilai Pesanan Rata-rata
+  aov: number;
+  history: HistoryItem[];
 
-  // Actions
   setProductPrice: (value: number) => void;
   setAdSpend: (value: number) => void;
   setCpr: (value: number) => void;
   setAov: (value: number) => void;
+  addToHistory: () => void;
+  clearHistory: () => void;
 
-  // Computed (helper functions to get values)
+  //ambil nilai
   getResults: () => number;
   getRevenue: () => number;
   getProfit: () => number;
   getROI: () => number;
   getMarginPerResult: () => number;
-  getCprTarget: () => number; // Assuming 30% of product price as per image hint
+  getCprTarget: () => number;
 }
 
-export const calcROI = create<ROIState>((set, get) => ({
-  productPrice: 50000,
-  adSpend: 1500000,
-  cpr: 235000,
-  aov: 10000,
+export const calcROI = create<ROIState>()(
+  persist(
+    (set, get) => ({
+      productPrice: 1000,
+      adSpend: 1000,
+      cpr: 1000,
+      aov: 1000,
+      history: [],
 
-  setProductPrice: (value) => set({ productPrice: value }),
-  setAdSpend: (value) => set({ adSpend: value }),
-  setCpr: (value) => set({ cpr: value }),
-  setAov: (value) => set({ aov: value }),
+      setProductPrice: (value) => set({ productPrice: value }),
+      setAdSpend: (value) => set({ adSpend: value }),
+      setCpr: (value) => set({ cpr: value }),
+      setAov: (value) => set({ aov: value }),
 
-  getResults: () => {
-    const { adSpend, cpr } = get();
-    if (cpr === 0) return 0;
-    return adSpend / cpr;
-  },
+      addToHistory: () => {
+        const state = get();
+        const newItem: HistoryItem = {
+          id: crypto.randomUUID(),
+          date: new Date().toISOString(),
+          inputs: {
+            productPrice: state.productPrice,
+            adSpend: state.adSpend,
+            cpr: state.cpr,
+            aov: state.aov,
+          },
+          results: {
+            roi: state.getROI(),
+            revenue: state.getRevenue(),
+            profit: state.getProfit(),
+            results: state.getResults(),
+          },
+        };
+        set((state) => ({ history: [newItem, ...state.history] }));
+      },
 
-  getRevenue: () => {
-    const results = get().getResults();
-    const { aov } = get();
-    return results * aov;
-  },
+      clearHistory: () => set({ history: [] }),
 
-  getProfit: () => {
-    const revenue = get().getRevenue();
-    const { adSpend } = get();
-    return revenue - adSpend;
-  },
+      getResults: () => {
+        const { adSpend, cpr } = get();
+        if (cpr === 0) return 0;
+        return adSpend / cpr;
+      },
 
-  getROI: () => {
-    const profit = get().getProfit();
-    const { adSpend } = get();
-    if (adSpend === 0) return 0;
-    return (profit / adSpend) * 100;
-  },
+      getRevenue: () => {
+        const results = get().getResults();
+        const { aov } = get();
+        return results * aov;
+      },
 
-  getMarginPerResult: () => {
-    const profit = get().getProfit();
-    const results = get().getResults();
-    if (results === 0) return 0;
-    return profit / results;
-  },
+      getProfit: () => {
+        const revenue = get().getRevenue();
+        const { adSpend } = get();
+        return revenue - adSpend;
+      },
 
-  getCprTarget: () => {
-    const { productPrice } = get();
-    // "Target CPR sebaiknya sekitar 30% dari harga produk" based on image text
-    return productPrice * 0.3;
-  },
-}));
+      getROI: () => {
+        const profit = get().getProfit();
+        const { adSpend } = get();
+        if (adSpend === 0) return 0;
+        return (profit / adSpend) * 100;
+      },
+
+      getMarginPerResult: () => {
+        const profit = get().getProfit();
+        const results = get().getResults();
+        if (results === 0) return 0;
+        return profit / results;
+      },
+
+      getCprTarget: () => {
+        const { productPrice } = get();
+        return productPrice * 0.3;
+      },
+    }),
+    {
+      name: "roi-calculator-storage",
+      partialize: (state) => ({ history: state.history }), // Only persist history
+    }
+  )
+);

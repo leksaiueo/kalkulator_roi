@@ -16,7 +16,7 @@ export default function StatusForm({
           {icon}
           <span className="text-sm font-medium text-gray-500">{label}</span>
         </div>
-        <p className={`text-2xl font-bold ${valueClassName}`}>{value}</p>
+        <p className={`text-3xl font-bold ${valueClassName}`}>{value}</p>
       </div>
     </div>
   );
