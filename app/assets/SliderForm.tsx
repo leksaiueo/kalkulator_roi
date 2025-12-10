@@ -31,14 +31,13 @@ export default function SliderForm({
     }
     if (isNaN(Number(val))) return;
     onChange?.({
-      ...e,
-      target: { ...e.target, value: Number(val) },
-    });
+      target: { value: String(Number(val)) },
+    } as React.ChangeEvent<HTMLInputElement>);
   };
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const numeric = Number(e.target.value);
-    onChange?.({ ...e, target: { ...e.target, value: numeric } });
+    onChange?.({ ...e, target: { ...e.target, value: String(numeric) } });
   };
 
   return (
@@ -59,7 +58,7 @@ export default function SliderForm({
           "w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-purple-600",
           className
         )}
-        value={numericValue}
+        value={numericValue.toString()}
         onChange={handleSliderChange}
         min={min}
         max={max}
@@ -72,7 +71,7 @@ export default function SliderForm({
           isEmpty ? "border-red-500" : "border-gray-200",
           className
         )}
-        value={isEmpty ? "" : value}
+        value={isEmpty ? "" : String(value)}
         onChange={handleInputChange}
       />
 

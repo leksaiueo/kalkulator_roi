@@ -27,8 +27,8 @@ export default function InputForm({
     if (isNaN(Number(val))) return;
     onChange?.({
       ...e,
-      target: { ...e.target, value: Number(val) },
-    });
+      target: { ...e.target, value: String(Number(val)) },
+    } as React.ChangeEvent<HTMLInputElement>);
   };
 
   return (

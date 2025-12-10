@@ -1,7 +1,7 @@
 "use client";
 
 import { calcROI } from "../lib/calcROI";
-import { History, Trash2 } from "lucide-react";
+import { History } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import HistoryCard from "../assets/HistoryCard";
 
