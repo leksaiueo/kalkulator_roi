@@ -25,7 +25,6 @@ interface ROIState {
   aov: number;
   history: HistoryItem[];
 
-  // Actions
   setProductPrice: (value: number) => void;
   setAdSpend: (value: number) => void;
   setCpr: (value: number) => void;
@@ -33,7 +32,7 @@ interface ROIState {
   addToHistory: () => void;
   removeFromHistory: (id: string) => void;
 
-  // Computed (helper functions to get values)
+
   getResults: () => number;
   getRevenue: () => number;
   getProfit: () => number;

@@ -1,7 +1,7 @@
 "use client";
 
 import { calcROI } from "../lib/calcROI";
-import { formatCurrency, formatNumber, formatRupiah } from "../lib/utils";
+import { formatCurrency, formatRupiah } from "../lib/utils";
 import { InsightForm } from "../assets/InsightForm";
 
 export default function CountSection() {
